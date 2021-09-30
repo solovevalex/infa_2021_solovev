@@ -4,28 +4,27 @@ from pygame.draw import *
 pygame.init()
 
 fps = 30
-width = 300
-length = 300
-
-screen = pygame.display.set_mode((width, length))
-
-def window(position_window):
-    x, y = position_window
-    rect(screen, (100, 100, 150), (x, y, 50, 100))
-    rect(screen, (0, 0, 255), (x + 3, y + 3, 20, 20))
-    rect(screen, (0, 0, 255), (x + 27, y + 3, 20, 20))
-    rect(screen, (0, 0, 255), (x + 3, y + 27, 20, 70))
-    rect(screen, (0, 0, 255), (x + 27, y + 27, 20, 70))
-
+width = 600
+length = 600
 black = (0,0,0)
+blue = (0,20,140)
+rama = (150, 150, 150)
+screen = pygame.display.set_mode((width, length))
+rect(screen, (50, 50, 100), (0,0,length,width/2))
+rect(screen, (50,100,0), (0,width/2,length, width/2))
 
+
+def window(x, y, size):
+    rect(screen, rama, (x, y, size, size*2+size/40))
+    rect(screen, blue, (x+size/10, y + size/10, 4*size/5, 9*size/5))
+    line(screen, rama, [x + size/2, y], [x+size/2, y+2*size], int(size/20))
+    line(screen, rama, [x, y+2*size/3], [x+size-size/20, y + 2 * size/3], int(size/20))
 
 def cat (x, y, size, с):
     ellipse(screen, (с, с, с - 100), (x, y, 3*size, size)) # туловище
     circle(screen, (с+50, с+50, с-100), (x, y), 4*size/5) # голова
     for z in 0.3*size, 0.9*size, 1.8*size, 2.4*size: # ноги
              ellipse(screen, (с+50, с+50, с-100), (x+z, y+3*size/6, 0.3*size, 1.3*size))
-
     ellipse(screen, (с+50, с+50, с-100), (x+9*size/4, y, 1.5*size, size/2)) # хвост
     for z in -size/4, size/4: # уши
         ellipse(screen, (с, с, с - 100), (x+1.4*z-x/15, y-1.5*size, size/3, 1.1*size))
@@ -45,11 +44,19 @@ def ooo(x, y, size1):
     arc(screen, black, (x - size1 / 2, y - size1 / 5, size1, size1), 2, 4)
     arc(screen, black, (x - size1 / 4, y - size1 / 4, size1, size1), 4, 6)
 
-rect(screen, (0, 50, 100), (0,0,300,150))
-rect(screen, (50,100,0), (0,150,300,150))
-window((120, 30))
-cat(50, 200, 35, 100)
-ooo(200, 250, 30)
+for x in 100, 250, 400:
+    window(x, 25, 100)
+
+cat(100,500,40,100)
+cat(300,350,70,200)
+ooo(100, 350, 60)
+ooo(450,520, 30)
+
+
+
+
+
+
 
 pygame.display.update()
 clock = pygame.time.Clock()
