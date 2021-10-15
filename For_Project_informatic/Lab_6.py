@@ -156,5 +156,6 @@ while not finished:
     screen.fill(BLACK)
 pg.quit()
 
-print('Ты набрал:  ', S)
-print('Good bue')
+print('Ты набрал: ', S)
+print('!!!')
+
