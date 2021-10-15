@@ -157,5 +157,3 @@ while not finished:
 pg.quit()
 
 print('Ты набрал: ', S)
-
-
