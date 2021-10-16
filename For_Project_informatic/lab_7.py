@@ -1,11 +1,11 @@
 import pygame as pg
-from random import randint
+from random import randint, random
 
 pg.init()
 
 # количество объектов на экране, одновременно находящихся (шариков и квадратов)
-number_balls = 5
-number_rects = 5
+number_balls = 10
+number_rects = 10
 # размер игрового окна
 W = 1000
 H = 500
@@ -16,7 +16,7 @@ rent_rect = 10
 max_size = 50
 min_size = 20
 
-FPS = 10
+FPS = 15
 screen = pg.display.set_mode((W, H))
 
 # цвета
@@ -141,8 +141,8 @@ while not finished:
         if rect['p']['y'] >= H - rect['l'] or rect['p']['y'] <= 0:
             rect['v']['dy'] *= - 1
         # Задается новое положение квадрата:
-        rect['p']['x'] += rect['v']['dx']
-        rect['p']['y'] += rect['v']['dy']
+        rect['p']['x'] += random()*rect['v']['dx']
+        rect['p']['y'] += random()*rect['v']['dy']
         # Рисоване квадрата:
         draw_rect(rect['p']['x'], rect['p']['y'], rect['l'], rect['color'])
 
@@ -157,3 +157,33 @@ while not finished:
 pg.quit()
 
 print('Ты набрал: ', S)
+
+# открыть файл на чтение и дозапись, так как нужно не просто добавить игрока в рейтинг, но и обозначить его положение.
+fail_records = open('records.txt', 'a+', encoding='utf-8')
+# просто добавляю результаты игрока в конец файла
+fail_records.write(f'{name} : {S}\n')
+fail_records.close()
+# переношу данные файла в список
+fail_records = open('records.txt', 'a+', encoding='utf-8')
+fail_records.seek(0)
+results = []
+for line in fail_records:
+    results.append(line)
+
+# нужно удалить перенос строки
+# каждый элемент моего списка - строка, состоящая из имени и результата через " : ". хочу из этого сделать словарь.
+results_real = []
+for result in results:
+    result = result.replace('\n', '')
+    result = result.split(' : ')
+    results_real.append(result)
+# отсортирую результаты списка
+result_sort = sorted(results_real, key=lambda x: int(x[1]), reverse=True)
+fail_records.close()
+# Занесу данные списка в файл
+fail_records = open('records.txt', 'w')
+
+for line in result_sort:
+    result_for_write = f'{line[0]} : {line[1]}\n'
+    fail_records.write(result_for_write)
+fail_records.close()
