@@ -26,7 +26,7 @@ pos_x = 40
 pos_y = 450
 
 
-class Ball:
+class Boom:
     'Это создается летящий шарик сбивающий цель'
 
     def __init__(self, screen: pygame.Surface, x=pos_x, y=pos_y):
@@ -35,7 +35,7 @@ class Ball:
         Args:
         x - начальное положение мяча по горизонтали
         y - начальное положение мяча по вертикали
-        r - радиус шарика
+        r - характерный размер цели
         vx - скорость по горизонтали
         vy - скорость по вертикали
         color - цвет шарика
@@ -65,13 +65,11 @@ class Ball:
         if self.y > HEIGHT * 96 / 100 or self.y < HEIGHT * 4 / 100:
             self.vy = -self.vy * k
 
-    def draw(self):
-        pygame.draw.circle(
-            self.screen,
-            self.color,
-            (self.x, self.y),
-            self.r
-        )
+    def draw_circle(self):
+        pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.r)
+
+    def draw_rect(self):
+        pygame.draw.rect(screen, self.color, [self.x - self.r / 2, self.y + self.r / 2, self.r * 2, self.r * 2])
 
     def hittest(self, obj):
         """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
@@ -109,11 +107,11 @@ class Gun:
         """
         global balls, bullet
         bullet += 1
-        new_ball = Ball(self.screen)
-        self.an = math.atan2((event.pos[1] - new_ball.y), (event.pos[0] - new_ball.x))
-        new_ball.vx = self.f2_power * math.cos(self.an)
-        new_ball.vy = - self.f2_power * math.sin(self.an)
-        balls.append(new_ball)
+        new_boom = Boom(self.screen)
+        self.an = math.atan2((event.pos[1] - new_boom.y), (event.pos[0] - new_boom.x))
+        new_boom.vx = self.f2_power * math.cos(self.an)
+        new_boom.vy = - self.f2_power * math.sin(self.an)
+        booms.append(new_boom)
         self.f2_on = 0
         self.f2_power = 10
 
@@ -146,10 +144,6 @@ class Gun:
 
 
 class Target:
-    # self.points = 0
-    # self.live = 1
-    # FIXME: don't work!!! How to call this functions when object is created?
-    # self.new_target()
 
     def __init__(self):
         """ Инициализация цели. """
@@ -207,7 +201,7 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 sum_points = 0
 bullet = 0
-balls = []
+booms = []
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
@@ -222,8 +216,9 @@ while not finished:
     target1.draw_rect()
     target2.move_circle()
     target2.draw_circle()
-    for b in balls:
-        b.draw()
+    for boom in booms:
+        i = randint(0,1)
+        boom = [boom.draw_circle, boom.draw_rect][i]
     pygame.display.update()
 
     clock.tick(FPS)
@@ -237,13 +232,13 @@ while not finished:
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
 
-    for b in balls:
-        b.move()
-        if b.hittest(target1) and target1.live:
+    for boom in booms:
+        boom.move()
+        if boom.hittest(target1) and target1.live:
             target1.live = 0
             target1.hit()
             target1.new_target()
-        if b.hittest(target2) and target2.live:
+        if boom.hittest(target2) and target2.live:
             target2.live = 0
             target2.hit()
             target2.new_target()
