@@ -30,7 +30,7 @@ pos_y = 450
 class Ball:
     'Это создается летящий шарик сбивающий цель'
 
-    def __init__(self, screen: pygame.Surface, x = pos_x, y = pos_y):
+    def __init__(self, screen: pygame.Surface, x=pos_x, y=pos_y):
         """ Конструктор класса ball
 
         Args:
@@ -111,7 +111,8 @@ class Gun:
         global balls, bullet
         bullet += 1
         new_ball = Ball(self.screen)
-        self.an = math.atan2((event.pos[1]-new_ball.y), (event.pos[0]-new_ball.x))
+        self.an = math.atan2(
+            (event.pos[1]-new_ball.y), (event.pos[0]-new_ball.x))
         new_ball.vx = self.f2_power * math.cos(self.an)
         new_ball.vy = - self.f2_power * math.sin(self.an)
         balls.append(new_ball)
@@ -129,8 +130,10 @@ class Gun:
 
     def draw(self):
         pygame.draw.polygon(self.screen, self.color, [
-             (self.x - math.sin(self.an) * self.l, self.y + math.cos(self.an) * self.l),
-             (self.x + math.sin(self.an) * self.l, self.y - math.cos(self.an)*self.l),
+             (self.x - math.sin(self.an) * self.l,
+              self.y + math.cos(self.an) * self.l),
+             (self.x + math.sin(self.an) * self.l,
+              self.y - math.cos(self.an)*self.l),
              (self.x + math.sin(self.an) * self.l + math.cos(self.an) * self.f2_power,
               self.y - math.cos(self.an) * self.l + math.sin(self.an) * self.f2_power),
              (self.x - math.sin(self.an) * self.l + math.cos(self.an) * self.f2_power,
@@ -182,7 +185,7 @@ class Target:
         if self.y > HEIGHT * 96 / 100 or self.y < HEIGHT * 4 / 100:
             self.vy = -self.vy
 
-    def hit(self, points = 1):
+    def hit(self, points=1):
         """Попадание шарика в цель."""
 
         self.points = 0
@@ -190,7 +193,7 @@ class Target:
         self.points += points
 
     def draw(self):
-            pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
+        pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
 
 
 pygame.init()
