@@ -1,6 +1,7 @@
 import pygame
 
 class Tank(pygame.sprite.Sprite):
+
     def __init__(self, x, y, filename):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(filename).convert_alpha()
@@ -15,12 +16,26 @@ class Tank(pygame.sprite.Sprite):
 
 
     def image_tank(self, position):
+        WIDTH = 800
+        HEIGHT = 600
         if position == 'up':
             self.image = self.up
+            self.rect.y -= self.V
+            if self.rect.y < 0:
+                self.rect.y = 0
         elif position == 'down':
             self.image = self.down
+            self.rect.y += self.V
+            if self.rect.y > HEIGHT - self.rect.width:
+                self.rect.y = HEIGHT - self.rect.width
         elif position == 'left':
             self.image = self.left
+            self.rect.x -= self.V
+            if self.rect.x < 0:
+                self.rect.x = 0
         elif position == 'right':
             self.image = self.right
+            self.rect.x += self.V
+            if self.rect.x > WIDTH - self.rect.width:
+                self.rect.x = WIDTH - self.rect.width
 

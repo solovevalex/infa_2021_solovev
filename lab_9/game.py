@@ -42,45 +42,44 @@ while not finished:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        tank_1.rect.y -= tank_1.V
         tank_1.image_tank('up')
-        if tank_1.rect.y < 0:
-            tank_1.rect.y = 0
     elif keys[pygame.K_x]:
-        tank_1.rect.y += tank_1.V
         tank_1.image_tank('down')
-        if tank_1.rect.y > HEIGHT - tank_1.rect.width:
-            tank_1.rect.y = HEIGHT - tank_1.rect.width
     elif keys[pygame.K_d]:
-        tank_1.rect.x += tank_1.V
         tank_1.image_tank('right')
-        if tank_1.rect.x > WIDTH - tank_1.rect.width:
-            tank_1.rect.x = WIDTH - tank_1.rect.width
     elif keys[pygame.K_a]:
-        tank_1.rect.x -= tank_1.V
         tank_1.image_tank('left')
-        if tank_1.rect.x < 0:
-            tank_1.rect.x = 0
     elif keys[pygame.K_o]:
-        tank_2.rect.y -= tank_2.V
         tank_2.image_tank('up')
-        if tank_2.rect.y < 0:
-            tank_2.rect.y = 0
     elif keys[pygame.K_PERIOD]:
-        tank_2.rect.y += tank_2.V
         tank_2.image_tank('down')
-        if tank_2.rect.y > HEIGHT - tank_2.rect.width:
-            tank_2.rect.y = HEIGHT - tank_2.rect.width
     elif keys[pygame.K_SEMICOLON]:
-        tank_2.rect.x += tank_2.V
         tank_2.image_tank('right')
-        if tank_2.rect.x > WIDTH - tank_2.rect.width:
-            tank_2.rect.x = WIDTH - tank_2.rect.width
     elif keys[pygame.K_k]:
-        tank_2.rect.x -= tank_2.V
         tank_2.image_tank('left')
-        if tank_2.rect.x < 0:
-            tank_2.rect.x = 0
+    # теперь задам начальную скорость снаряда.
+    plus = 1
+    # для первой пушки
+    V_ball_1 = 0
+    if keys[pygame.K_s]:
+        if V_ball_1 < 20:
+            V_ball_1 += plus
+    # для второй пушки
+    V_ball_2 = 0
+    if keys[pygame.K_l]:
+        if V_ball_2 < 20:
+            V_ball_2 += plus
+
+    # Теперь будут создаваться снаряды-шарики пушек. Задаю все необходимое для этого
+    balls = pygame.sprite.Group()
+    # для первой пушки
+    # if keys[pygame.K_q]:
+    #     if tank_1.image == tank_1.right:
+
+
+
+
+
 
     sc.blit(bg, (0, 0))
     sc.blit(tank_1.image, tank_1.rect)
