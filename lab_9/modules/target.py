@@ -2,12 +2,12 @@ import pygame
 
 
 class Target(pygame.sprite.Sprite):
-    def __init__(self, x, y, filename):
-        pygame.sprite.Sprite.__inir__(self)
-        self.image = pygame.image.load(filename).comvert_alpha()
-        self.rect = pygame.image.get_rect(center=(x, y))
-        self.Vx = 5
-        self.Vy = 5
+    def __init__(self, x, y, Vx, Vy, filename):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(filename).convert_alpha()
+        self.rect = self.image.get_rect(center=(x, y))
+        self.Vx = Vx
+        self.Vy = Vy
 
     def update(self, WIDTH, HEIGHT):
         """Переместить мяч по прошествии единицы времени.
@@ -32,5 +32,3 @@ class Target(pygame.sprite.Sprite):
             self.rect.y += self.Vy
         elif self.rect.y < 20:
             self.Vy *= -1
-        g = -1
-        self.Vy += g
