@@ -39,3 +39,15 @@ class Tank(pygame.sprite.Sprite):
             if self.rect.x > WIDTH - self.rect.width:
                 self.rect.x = WIDTH - self.rect.width
 
+    def position(self):
+        """Возвращает последнюю позицию танка: вверх, вниз, вправо, влево"""
+        if self.image == self.right:
+            return 'right'
+        if self.image == self.left:
+            return 'left'
+        if self.image == self.down:
+            return 'down'
+        if self.image == self.up:
+            return 'up'
+
+

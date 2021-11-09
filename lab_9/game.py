@@ -1,7 +1,7 @@
 import math
 from random import choice, randint
 import pygame
-from lab_9.modules.ball import Ball
+from lab_9.modules.ball import Ball, start_speed_x, start_speed_y
 from lab_9.modules.bomb import Bomb
 from lab_9.modules.tank import Tank
 from lab_9.modules.target import Target
@@ -26,9 +26,10 @@ HEIGHT = 600
 
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
 bg = pygame.image.load('images/back_ground.jpg').convert()
-tank_1 = Tank(WIDTH/10, HEIGHT/10, 'images/tank.png')
-tank_2 = Tank(WIDTH/10, 9*HEIGHT/10, 'images/tank.png')
-
+tank_1 = Tank(WIDTH / 10, HEIGHT / 10, 'images/tank.png')
+tank_2 = Tank(WIDTH / 10, 9 * HEIGHT / 10, 'images/tank.png')
+balls = pygame.sprite.Group()
+control = 0
 clock = pygame.time.Clock()
 finished = False
 while not finished:
@@ -36,6 +37,25 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
+        if event.type == pygame.KEYDOWN:
+            if control == 1:
+                # для первого танка
+                if event.key == pygame.K_q:
+                    balls.add(Ball(tank_1.rect.centerx, tank_1.rect.centery, start_speed_x(position_tank_1, V_ball_1),
+                                   start_speed_y(position_tank_1, V_ball_1), 'images/ball_1.png'))
+                if event.key == pygame.K_e:
+                    balls.add(Ball(tank_1.rect.centerx, tank_1.rect.centery, start_speed_x(position_tank_1, V_ball_1),
+                                   start_speed_y(position_tank_1, V_ball_1), 'images/ball_2.png'))
+                # для второго танка
+                if event.key == pygame.K_i:
+                    balls.add(Ball(tank_2.rect.centerx, tank_2.rect.centery, start_speed_x(position_tank_2, V_ball_2),
+                                   start_speed_y(position_tank_2, V_ball_2), 'images/ball_1.png'))
+                if event.key == pygame.K_p:
+                    balls.add(Ball(tank_2.rect.centerx, tank_2.rect.centery, start_speed_x(position_tank_1, V_ball_2),
+                                   start_speed_y(position_tank_1, V_ball_2), 'images/ball_2.png'))
+            else:
+                control += 1
+
     # создание и движение танков
     # первый танк управляется клавишами: 'w', 'x', 'd', 'a'
     # второй танк управляется клавишами: 'o', '.', 'k', ';'
@@ -58,33 +78,34 @@ while not finished:
     elif keys[pygame.K_k]:
         tank_2.image_tank('left')
     # теперь задам начальную скорость снаряда.
-    plus = 1
+    plus = 0.1
     # для первой пушки
     V_ball_1 = 0
     if keys[pygame.K_s]:
-        if V_ball_1 < 20:
+        if V_ball_1 < 40:
+            V_ball_1 += plus
+    if not keys[pygame.K_s]:
+        if V_ball_1 < 40:
             V_ball_1 += plus
     # для второй пушки
     V_ball_2 = 0
     if keys[pygame.K_l]:
-        if V_ball_2 < 20:
+        if V_ball_2 < 40:
+            V_ball_2 += plus
+    if not keys[pygame.K_l]:
+        if V_ball_2 < 40:
             V_ball_2 += plus
 
-    # Теперь будут создаваться снаряды-шарики пушек. Задаю все необходимое для этого
-    balls = pygame.sprite.Group()
-    # для первой пушки
-    # if keys[pygame.K_q]:
-    #     if tank_1.image == tank_1.right:
-
-
-
-
+    # теперь задам движение этой группы шариков и их удаление через определенное время
+    balls.update(WIDTH, HEIGHT)
 
 
     sc.blit(bg, (0, 0))
     sc.blit(tank_1.image, tank_1.rect)
     sc.blit(tank_2.image, tank_2.rect)
+    balls.draw(sc)
     pygame.display.update()
-
-
+    # сюда сохраняется позиция танка (нужно для создания снаряда)
+    position_tank_1 = tank_1.position()
+    position_tank_2 = tank_2.position()
 pygame.quit()
