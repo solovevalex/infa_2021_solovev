@@ -1,12 +1,13 @@
 import pygame
 
+
 # необходимые параметры для определения нижеопределяемого класса
 def start_speed_x(position, V):
     """задает направление начальной скорости шарика (снаряда пушки) по х"""
     if position == 'up':
-        return  0
+        return 0
     elif position == 'down':
-        return  0
+        return 0
     elif position == 'right':
         return V
     elif position == 'left':
@@ -27,6 +28,7 @@ def start_speed_y(position, V):
 
 class Ball(pygame.sprite.Sprite):
     """Это шарик - снаряд, который вудетает из пушки-танка"""
+
     def __init__(self, x, y, Vx, Vy, filename):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(filename).convert_alpha()
@@ -37,7 +39,6 @@ class Ball(pygame.sprite.Sprite):
         self.Vx = Vx
         self.Vy = Vy
         self.life = 0
-
 
     def update(self, *args):
         """Переместить мяч по прошествии единицы времени.
@@ -62,7 +63,7 @@ class Ball(pygame.sprite.Sprite):
             self.rect.y += self.Vy
         if self.rect.y < 20:
             self.Vy *= -1
-        g = 0
+        g = 1
         self.Vy += g
 
     def kill(self):
@@ -71,12 +72,3 @@ class Ball(pygame.sprite.Sprite):
             self.kill()
         else:
             self.life += 1
-
-
-
-
-
-
-
-
-

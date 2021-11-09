@@ -30,6 +30,9 @@ tank_1 = Tank(WIDTH / 10, HEIGHT / 10, 'images/tank.png')
 tank_2 = Tank(WIDTH / 10, 9 * HEIGHT / 10, 'images/tank.png')
 balls = pygame.sprite.Group()
 control = 0
+V_ball_1 = 0
+V_ball_2 = 0
+plus = 1
 clock = pygame.time.Clock()
 finished = False
 while not finished:
@@ -78,32 +81,31 @@ while not finished:
     elif keys[pygame.K_k]:
         tank_2.image_tank('left')
     # теперь задам начальную скорость снаряда.
-    plus = 0.1
+
     # для первой пушки
-    V_ball_1 = 0
+
     if keys[pygame.K_s]:
         if V_ball_1 < 40:
             V_ball_1 += plus
     if not keys[pygame.K_s]:
-        if V_ball_1 < 40:
-            V_ball_1 += plus
+        V_ball_1 = 0
     # для второй пушки
-    V_ball_2 = 0
+
     if keys[pygame.K_l]:
         if V_ball_2 < 40:
             V_ball_2 += plus
     if not keys[pygame.K_l]:
-        if V_ball_2 < 40:
-            V_ball_2 += plus
+        V_ball_2 = 0
 
     # теперь задам движение этой группы шариков и их удаление через определенное время
     balls.update(WIDTH, HEIGHT)
 
 
     sc.blit(bg, (0, 0))
+
+    balls.draw(sc)
     sc.blit(tank_1.image, tank_1.rect)
     sc.blit(tank_2.image, tank_2.rect)
-    balls.draw(sc)
     pygame.display.update()
     # сюда сохраняется позиция танка (нужно для создания снаряда)
     position_tank_1 = tank_1.position()
