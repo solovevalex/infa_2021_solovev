@@ -1,5 +1,5 @@
 import math
-from random import choice, randint
+from random import choice, randint, random
 import pygame
 from lab_9.modules.ball import Ball, start_speed_x, start_speed_y
 from lab_9.modules.bomb import Bomb
@@ -28,6 +28,8 @@ sc = pygame.display.set_mode((WIDTH, HEIGHT))
 bg = pygame.image.load('images/back_ground.jpg').convert()
 tank_1 = Tank(WIDTH / 10, HEIGHT / 10, 'images/tank.png')
 tank_2 = Tank(WIDTH / 10, 9 * HEIGHT / 10, 'images/tank.png')
+target_1 = Target(random()*WIDTH, random()*HEIGHT, 10, 10, 'images/bee.png')
+target_2 = Target(random()*WIDTH, random()*HEIGHT, 10, 10, 'images/cry.png')
 balls = pygame.sprite.Group()
 control = 0
 V_ball_1 = 0
@@ -102,11 +104,19 @@ while not finished:
     # шарики должны жить определенное время
     for ball in balls:
         ball.kill_ball()
+    target_1.update(WIDTH, HEIGHT)
+    target_2.update(WIDTH, HEIGHT)
+    target_2.new_speed()
+
+
 
     sc.blit(bg, (0, 0))
     balls.draw(sc)
     sc.blit(tank_1.image, tank_1.rect)
     sc.blit(tank_2.image, tank_2.rect)
+    sc.blit(target_1.image, target_1.rect)
+    sc.blit(target_2.image, target_2.rect)
+
     pygame.display.update()
     # сюда сохраняется позиция танка (нужно для создания снаряда)
     position_tank_1 = tank_1.position()

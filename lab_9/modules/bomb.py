@@ -17,6 +17,6 @@ class Bomb(pygame.sprite.Sprite):
         if self.rect.y > 20:
             self.rect.y += self.Vy
         else:
-            pass
+            self.kill()
         g = -1
         self.Vy += g
