@@ -66,8 +66,8 @@ class Ball(pygame.sprite.Sprite):
         g = 1
         self.Vy += g
 
-    def kill(self):
-        time_life = 300
+    def kill_ball(self):
+        time_life = 40
         if self.life == time_life:
             self.kill()
         else:

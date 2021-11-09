@@ -99,10 +99,11 @@ while not finished:
 
     # теперь задам движение этой группы шариков и их удаление через определенное время
     balls.update(WIDTH, HEIGHT)
-
+    # шарики должны жить определенное время
+    for ball in balls:
+        ball.kill_ball()
 
     sc.blit(bg, (0, 0))
-
     balls.draw(sc)
     sc.blit(tank_1.image, tank_1.rect)
     sc.blit(tank_2.image, tank_2.rect)
