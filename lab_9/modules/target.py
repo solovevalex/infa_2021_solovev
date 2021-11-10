@@ -46,7 +46,7 @@ class Target(pygame.sprite.Sprite):
             self.Vy = randint(0, 10)
         elif self.Vy <= 0:
             self.Vy = -randint(0, 10)
-
+        self.Vy = randint(0, 10)
     def target_control(self, width,height):
         if self.rect.centery > height:
             self.rect.centery = height

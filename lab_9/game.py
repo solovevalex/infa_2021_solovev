@@ -31,7 +31,11 @@ tank_2 = Tank(WIDTH / 10, 9 * HEIGHT / 10, 'images/tank.png')
 target_1 = Target(random()*WIDTH, random()*HEIGHT, 10, 10, 'images/bee.png')
 target_2 = Target(random()*WIDTH, random()*HEIGHT, 10, 10, 'images/cry.png')
 balls = pygame.sprite.Group()
+bombs = pygame.sprite.Group()
 control = 0
+time_control = 5
+time_1 = 0
+time_2 = 0
 V_ball_1 = 0
 V_ball_2 = 0
 plus = 1
@@ -106,12 +110,29 @@ while not finished:
         ball.kill_ball()
     target_1.update(WIDTH, HEIGHT)
     target_2.update(WIDTH, HEIGHT)
-    target_2.new_speed()
+
+    # теперь буду создавать бомбочки которые будут сбрасывать цели
+    # бомбочка от цели 1:
+    if time_1 == time_control:
+        bombs.add(Bomb(target_1.rect.centerx, target_1.rect.centery, 'images/bomb.png'))
+        time_1 = 0
+    else:
+        time_1 += plus
+    # бобочка от цели 2:
+    if time_2 == time_control:
+        bombs.add(Bomb(target_2.rect.centerx, target_2.rect.centery, 'images/bomb.png'))
+        time_2 = 0
+    else:
+        time_2 += plus
+    bombs.update(WIDTH, HEIGHT)
+
+
 
 
 
     sc.blit(bg, (0, 0))
     balls.draw(sc)
+    bombs.draw(sc)
     sc.blit(tank_1.image, tank_1.rect)
     sc.blit(tank_2.image, tank_2.rect)
     sc.blit(target_1.image, target_1.rect)

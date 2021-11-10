@@ -5,6 +5,9 @@ class Bomb(pygame.sprite.Sprite):
     def __init__(self, x, y, filename):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(filename).convert_alpha()
+        # масштабирую:
+        self.image = pygame.transform.scale(self.image,
+                                            (self.image.get_width() // 10, self.image.get_height() // 10))
         self.rect = self.image.get_rect(center=(x, y))
         self.Vy = 0
 
@@ -18,5 +21,6 @@ class Bomb(pygame.sprite.Sprite):
             self.rect.y += self.Vy
         else:
             self.kill()
-        g = -1
+        g = 1
         self.Vy += g
+
