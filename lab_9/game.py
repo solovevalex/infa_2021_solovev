@@ -1,5 +1,4 @@
-import math
-from random import choice, randint, random
+from random import random
 import pygame
 from lab_9.modules.ball import Ball, start_speed_x, start_speed_y
 from lab_9.modules.bomb import Bomb
@@ -118,13 +117,24 @@ while not finished:
         time_1 = 0
     else:
         time_1 += plus
-    # бобочка от цели 2:
+    # бомбочка от цели 2:
     if time_2 == time_control:
         bombs.add(Bomb(target_2.rect.centerx, target_2.rect.centery, 'images/bomb.png'))
         time_2 = 0
     else:
         time_2 += plus
     bombs.update(WIDTH, HEIGHT)
+
+    # сделаю контроль столкновения снаряда и цели. Удаляю цель и создаю новую в случае попадания
+    for ball in balls:
+        if target_1.rect.colliderect(ball.rect):
+            target_1.kill()
+            target_1 = Target(random() * WIDTH, random() * HEIGHT, 10, 10, 'images/bee.png')
+
+        if target_2.rect.colliderect(ball.rect):
+            target_2.kill()
+            target_2 = Target(random() * WIDTH, random() * HEIGHT, 10, 10, 'images/cry.png')
+
 
 
 

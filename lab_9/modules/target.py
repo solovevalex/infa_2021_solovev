@@ -48,6 +48,7 @@ class Target(pygame.sprite.Sprite):
             self.Vy = -randint(0, 10)
         self.Vy = randint(0, 10)
     def target_control(self, width,height):
+        # функция не позволяет целям залетать, куда не надо
         if self.rect.centery > height:
             self.rect.centery = height
         if self.rect.centery < 0:

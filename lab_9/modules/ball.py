@@ -38,6 +38,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))
         self.Vx = Vx
         self.Vy = Vy
+        # параметр life нужен, чтобы удалять шарик через определенное время
         self.life = 0
 
     def update(self, *args):
@@ -67,8 +68,11 @@ class Ball(pygame.sprite.Sprite):
         self.Vy += g
 
     def kill_ball(self):
+        # функция удаления шарика
         time_life = 40
         if self.life == time_life:
             self.kill()
         else:
             self.life += 1
+
+

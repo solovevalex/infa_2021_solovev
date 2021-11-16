@@ -18,6 +18,7 @@ class Tank(pygame.sprite.Sprite):
     def image_tank(self, position):
         WIDTH = 800
         HEIGHT = 600
+        # эта функция задает положение изображения танка на экране в зависимости от того, куда он собирается ехать
         if position == 'up':
             self.image = self.up
             self.rect.y -= self.V
